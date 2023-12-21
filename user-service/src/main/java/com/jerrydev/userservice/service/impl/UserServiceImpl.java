@@ -1,11 +1,16 @@
 package com.jerrydev.userservice.service.impl;
 
+import com.jerrydev.userservice.dto.BikeDTO;
+import com.jerrydev.userservice.dto.CarDTO;
 import com.jerrydev.userservice.dto.UserDTO;
 import com.jerrydev.userservice.dto.UserMapper;
 import com.jerrydev.userservice.entity.User;
+import com.jerrydev.userservice.feignclient.BikeFeignClient;
+import com.jerrydev.userservice.feignclient.CarFeignClient;
 import com.jerrydev.userservice.repository.UserRepository;
 import com.jerrydev.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +24,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper ;
+
+    @Autowired
+    private BikeFeignClient bikeFeignClient ;
+
+    @Autowired
+    private CarFeignClient carFeignClient;
+
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -62,5 +74,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public List<BikeDTO> bikesByUserId(int userId) {
+        return bikeFeignClient.bikesByUserId(userId);
+    }
+
+    @Override
+    public List<CarDTO> carsByUserId(int userId) {
+        return carFeignClient.carsByUserId(userId);
+    }
+
+    @Override
+    public CarDTO saveCar(int userId, CarDTO carDTO) {
+        User foundUser = userRepository.findById(userId).get();
+
+        if(foundUser!=null){
+            carDTO.setUserId(userId);
+            return carFeignClient.saveCar(carDTO);
+        }
+        return new CarDTO();
+    }
+    @Override
+    public BikeDTO saveBikeByUserId(int userId, BikeDTO bikeDTO) {
+        User foundUser = userRepository.findById(userId).get();
+
+        if(foundUser!=null){
+            bikeDTO.setUserId(userId);
+            return bikeFeignClient.saveBike(bikeDTO);
+        }
+        return new BikeDTO();
     }
 }
