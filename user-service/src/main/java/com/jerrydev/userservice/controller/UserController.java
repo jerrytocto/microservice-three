@@ -49,7 +49,7 @@ public class UserController {
         return  new ResponseEntity<>(userService.bikesByUserId(userId),HttpStatus.OK);
     }
 
-    @PostMapping("{userId}/save-car")
+    @PostMapping("{userId}/save-bike")
     private ResponseEntity<?> saveBikeByUserId(@RequestBody BikeDTO bikeDTO, @PathVariable int userId){
 
         return  new ResponseEntity<>(
