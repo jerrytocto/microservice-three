@@ -16,6 +16,8 @@ spring:
       discovery:
         locator:
           enabled: true
+      loadbalancer:
+        enabled: true
       routes:
         - id: user-service
           uri: lb://user-service
