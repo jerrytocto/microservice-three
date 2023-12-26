@@ -16,11 +16,9 @@ spring:
       discovery:
         locator:
           enabled: true
-      loadbalancer:
-        enabled: true
       routes:
         - id: user-service
-          uri: lb://user-service
+          uri: lb://USER-SERVICE
           predicates:
             - Path=/api/v1/users/**
         - id: car-service
@@ -28,6 +26,6 @@ spring:
           predicates:
             - Path=/api/v1/cars/**
         - id: bike-service
-          uri: lb://bike-service
+          uri: lb://BIKE-SERVICE
           predicates:
             - Path=/api/v1/bikes/**
