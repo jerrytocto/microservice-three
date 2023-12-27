@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "bike-service", url ="http://localhost:8003/api/v1/bikes")
+@FeignClient(name = "bike-service")
 public interface BikeFeignClient {
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/api/v1/bikes/user/{userId}")
     List<BikeDTO> bikesByUserId(@PathVariable int userId);
 
-    @PostMapping()
+    @PostMapping("/api/v1/bikes")
     BikeDTO saveBike(@RequestBody BikeDTO bikeDTO);
 }
