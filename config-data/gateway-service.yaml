@@ -20,13 +20,13 @@ spring:
         - id: car-service
           uri: lb://car-service
           predicates:
-            - Path=/api/v1/cars/**
+            - HostHeader=car-service
         - id: bike-service
           uri: lb://bike-service
           predicates:
-            - Path=/api/v1/bikes/**
+            - HostHeader=bike-service
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/users/**
+            - HostHeader=user-service
 
